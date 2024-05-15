@@ -74,7 +74,7 @@ class TitleCompute:
     def process_killfeed_raw_event(self, event: str):
         print(f"EVENT: {event}")
         (success, event_data) = parsers.parse_event(
-            event, parsers.GROK_KILLFEED_BOT_EVENT
+            event, parsers.GROK_KILLFEED_EVENT
         )
         if success:
             self._process_killfeed_event(event_data)
