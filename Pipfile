@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "migrantTitles"
+
+[packages]
+asyncio = "*"
+pygrok = "*"
+reactivex = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11.3"
+python_full_version = "3.11.3"
