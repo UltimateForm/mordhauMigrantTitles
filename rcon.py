@@ -7,6 +7,7 @@ from contextlib import AbstractAsyncContextManager
 # Packet types
 SERVERDATA_AUTH = 3
 SERVERDATA_EXECCOMMAND = 2
+DEFAULT_RCON_CONNECT_TIMEOUT = 5
 
 
 # src: https://github.com/pmrowla/pysrcds/blob/master/srcds/rcon.py
@@ -53,9 +54,13 @@ class RconClient:
     _reader: StreamReader
     _writer: StreamWriter
     _counter: int
+    _connect_timeout: int
 
     def __init__(self) -> None:
         self._port = int(os.environ["RCON_PORT"])
+        self._connect_timeout = int(
+            os.environ.get("RCON_CONNECT_TIMEOUT", DEFAULT_RCON_CONNECT_TIMEOUT)
+        )
         self._password = os.environ["RCON_PASSWORD"]
         self._address = os.environ["RCON_ADDRESS"]
         self._counter = 0
@@ -84,7 +89,9 @@ class RconClient:
         await self._writer.drain()
 
     async def get_connection(self):
-        conn = await asyncio.open_connection(self._address, self._port)
+        conn: tuple[StreamReader, StreamWriter]
+        async with asyncio.timeout(self._connect_timeout):
+            conn = await asyncio.open_connection(self._address, self._port)
         return conn
 
     async def authenticate(self):

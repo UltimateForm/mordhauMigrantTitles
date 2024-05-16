@@ -2,6 +2,8 @@ import asyncio
 from reactivex import Subject, operators
 from rcon import RconClient
 
+RECONNECT_WAIT_TIME_SECS = 5
+
 
 class RconListener(Subject[str], RconClient):
     _event: str
@@ -26,16 +28,33 @@ class RconListener(Subject[str], RconClient):
             except Exception as e:
                 print(f"FAILED TO REWARM! ERROR: {str(e)}")
 
+    async def _start(self):
+        rewarm_task: asyncio.Task | None = None
+        try:
+            await self.authenticate()
+            if not self._listening:
+                r = await self.execute(f"listen {self._event}")
+                print(r)
+                self._listening = True
+            rewarm_task = asyncio.create_task(self.warmer())
+            while True:
+                pck = await self.recv_pkt()
+                self.on_next(pck.body)
+        except:
+            if rewarm_task:
+                rewarm_task.cancel()
+            raise
+
     async def start(self):
-        await self.authenticate()
-        if not self._listening:
-            r = await self.execute(f"listen {self._event}")
-            print(r)
-            self._listening = True
-        asyncio.create_task(self.warmer())
         while True:
-            pck = await self.recv_pkt()
-            self.on_next(pck.body)
+            try:
+                await self._start()
+                return
+            except (ConnectionError, TimeoutError) as e:
+                print(
+                    f"Connection error occured: {str(e) or type(e).__name__}\nAttempting reconnection in {RECONNECT_WAIT_TIME_SECS} seconds..."
+                )
+                await asyncio.sleep(RECONNECT_WAIT_TIME_SECS)
 
 
 if __name__ == "__main__":

@@ -26,8 +26,9 @@ You need at least Docker installed and a terminal that can run .sh files (linux 
     1. RCON_PASSWORD
     1. RCON_ADDRESS
     1. RCON_PORT
-    1. TITLE (optional)
-1. run `sh restart.sh` in terminal
+    2. RCON_CONNECT_TIMEOUT (optional)
+    3. TITLE (optional)
+2. run `sh restart.sh` in terminal
     1. if you're familar with docker or python you don't necessarily need to this, you can run this bot anywhere and however you want
 
 
@@ -36,6 +37,7 @@ You need at least Docker installed and a terminal that can run .sh files (linux 
 RCON_PASSWORD=superD_uprSecurePw
 RCON_ADDRESS=192.168.0.52
 RCON_PORT=27019
+RCON_CONNECT_TIMEOUT=10
 TITLE=KING
 ```
 
@@ -43,4 +45,3 @@ TITLE=KING
 1. this hasn't been stress tested
    1. I tested on a small server with 20-30 ppl
    2. most of my testing has been on personal local server with bots
-2. this bot relies on consistent rcon connection, if it breaks you need to restart bot
