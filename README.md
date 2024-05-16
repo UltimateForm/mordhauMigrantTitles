@@ -19,6 +19,8 @@ This bot, in essence, is a form of encouragement for bloodshed by introducing an
   > DonnieYen has defeated [REX] JohnWick and claimed his REX title
 
 ## Usage
+You need at least Docker installed and a terminal that can run .sh files (linux or unix-like system)
+
 1. clone repo or download code
 1. create .env file in same folder as code with these parameters:
     1. RCON_PASSWORD
