@@ -7,6 +7,7 @@ This is a python rcon bot for Mordhau
   - [Usage](#usage)
   - [Example .env](#example-env)
   - [Important note](#important-note)
+  - [FAQs](#faqs)
 
 
 ## What it do?
@@ -45,3 +46,9 @@ TITLE=KING
 1. this hasn't been stress tested
    1. I tested on a small server with 20-30 ppl
    2. most of my testing has been on personal local server with bots
+
+## FAQs
+- How does the first title holder gets selected? (as in when there's no current holder)
+  - first killer dectected while title is vacant gets awarded the title
+- What happens when current title holder leaves server?
+  - title is made vacant, conditions regarding vacant titles apply
