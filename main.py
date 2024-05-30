@@ -1,8 +1,11 @@
 import asyncio
 from rcon_listener import RconListener
 from os import environ
+from dotenv import load_dotenv
 from rcon import RconContext
 import parsers
+
+load_dotenv()
 
 DEFAULT_REX_TITLE = "REX"
 

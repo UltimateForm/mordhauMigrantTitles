@@ -7,6 +7,7 @@ name = "migrantTitles"
 asyncio = "*"
 pygrok = "*"
 reactivex = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
