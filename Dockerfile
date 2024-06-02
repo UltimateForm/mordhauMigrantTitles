@@ -18,4 +18,6 @@ COPY ./rcon_listener.py .
 
 COPY ./rcon.py .
 
+COPY ./logger.py .
+
 CMD ["pipenv", "run", "python", "main.py"]
