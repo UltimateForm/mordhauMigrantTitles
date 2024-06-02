@@ -4,6 +4,7 @@ from os import environ
 from dotenv import load_dotenv
 from rcon import RconContext
 import parsers
+import logger
 
 load_dotenv()
 
@@ -72,10 +73,10 @@ class TitleCompute:
                 # this is a bug, boy has REX in his name but isn't actually current rex
                 self._remove_rex(killer_playfab_id, killer)
         except Exception as e:
-            print(f"Failed to process REX tag compute, {str(e)}")
+            logger.error(f"Failed to process REX tag compute, {str(e)}")
 
     def process_killfeed_raw_event(self, event: str):
-        print(f"EVENT: {event}")
+        logger.debug(f"EVENT: {event}")
         (success, event_data) = parsers.parse_event(
             event, parsers.GROK_KILLFEED_EVENT
         )
@@ -83,7 +84,7 @@ class TitleCompute:
             self._process_killfeed_event(event_data)
 
     def process_login_raw_event(self, event: str):
-        print(f"EVENT: {event}")
+        logger.debug(f"EVENT: {event}")
         (success, event_data) = parsers.parse_event(event, parsers.GROK_LOGIN_EVENT)
         if not success:
             return
@@ -106,4 +107,5 @@ async def main():
 
 
 if __name__ == "__main__":
+    logger.use_date_time_logger()
     asyncio.run(main())
